@@ -20,6 +20,9 @@ logging.basicConfig(
     datefmt='%a, %d %b %Y %H:%M:%S',
 )
 
+def check_existed(path):
+    import os
+    return os.path.exists(path)
 
 def get_revalue(html, rex, er, ex):
     v = re.search(rex, html)
@@ -105,9 +108,12 @@ class Course:
             os.makedirs(_pwd)
         for f in res:
             name = get_revalue(f, r'([^/]+?)$', 'get name error', 1).replace(' ', '_')
+            __pwd = os.path.join(_pwd, name)
+            if check_existed(__pwd):
+                logging.info( name + ' already exists, skip')
+                continue
             print 'downloading ' + name
             logging.info('downloading ' + name)
-            __pwd = os.path.join(_pwd, name)
             self.req.Download(f, __pwd)
 
 if __name__ == '__main__':
