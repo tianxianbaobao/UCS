@@ -8,11 +8,11 @@ UCAS course sync tool
 python 2.7+
 
 # Quick Start
-1. download  
+
+- download  
 ```shell
 git clone https://github.com/tianxianbaobao/UCS.git
 ```
-
 2. config  
 在ucs.config文件中，依次填入用户名，密码，和课件同步位置,如:
 
@@ -21,8 +21,8 @@ git clone https://github.com/tianxianbaobao/UCS.git
 		passwd=123abc
 		savedir=Courses
 
-3. run  
-```
+- run  
+```python
 python login.py
 ```
 
