@@ -8,6 +8,7 @@ Author   : septicmk
 from HttpClient import *
 import re
 import logging
+import ConfigParser
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -37,9 +38,11 @@ class Course:
         self.hosturl = 'http://sep.ucas.ac.cn'
         self.loginurl = 'http://sep.ucas.ac.cn/slogin'
         self.req = HttpClient()
-        self.usrname = 'xxxxxx'
-        self.passwd = 'xxx'
-        self.pwd = 'xxxx'
+	config = ConfigParser.ConfigParser()
+	config.read('./ucs.config')
+	self.usrname =  config.get('USER','usrname')
+        self.passwd = config.get('USER', 'passwd')
+        self.pwd = config.get('USER', 'savedir')
 
     def login(self):
 

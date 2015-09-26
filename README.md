@@ -14,7 +14,12 @@ git clone https://github.com/tianxianbaobao/UCS.git
 ```
 
 2. config  
-在login.py文件中第40～42行，依次填入用户名，密码，和课件同步位置
+在ucs.config文件中，依次填入用户名，密码，和课件同步位置,如:
+
+		[USER]
+		usrname=tianxianbaobao
+		passwd=123abc
+		savedir=Courses
 
 3. run  
 ```
