@@ -29,4 +29,8 @@ python login.py
 # Issue
 建议写成alias
 
-增加增量同步功能
+网上资源存在多级目录情况的处理
+
+受版权保护文件的下载
+
+（Optional）更好的增量同步方法
