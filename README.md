@@ -26,11 +26,8 @@ git clone https://github.com/tianxianbaobao/UCS.git
 python login.py
 ```
 
-# Issue
-建议写成alias
+# Bug Report
 
-网上资源存在多级目录情况的处理
+[孟轲 \<mengke@ncic.ac.cn\>](mengke@ncic.ac.cn)
 
-受版权保护文件的下载
-
-（Optional）更好的增量同步方法
+[张正宇 \<zhangzhengyu@ncic.ac.cn\>](zhangzhengyu@ncic.ac.cn)
