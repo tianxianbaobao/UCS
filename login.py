@@ -41,9 +41,9 @@ class Course:
         self.hosturl = 'http://sep.ucas.ac.cn'
         self.loginurl = 'http://sep.ucas.ac.cn/slogin'
         self.req = HttpClient()
-	config = ConfigParser.ConfigParser()
-	config.read('./ucs.config')
-	self.usrname =  config.get('USER','usrname')
+        config = ConfigParser.ConfigParser()
+        config.read('./ucs.config')
+        self.usrname =  config.get('USER','usrname')
         self.passwd = config.get('USER', 'passwd')
         self.pwd = config.get('USER', 'savedir')
 
@@ -108,6 +108,9 @@ class Course:
             os.makedirs(_pwd)
         for f in res:
             name = get_revalue(f, r'([^/]+?)$', 'get name error', 1).replace(' ', '_')
+            if name.__contains__('copyrightAlertWindow'):
+                print  'contents is protected by COPYRIGHT, failed to download'
+                continue
             __pwd = os.path.join(_pwd, name)
             if check_existed(__pwd):
                 logging.info( name + ' already exists, skip')
