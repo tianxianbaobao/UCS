@@ -9,6 +9,7 @@ python 2.7+
 
 # Quick Start
 1. download  
+下载
 ```shell
 git clone https://github.com/tianxianbaobao/UCS.git
 ```
