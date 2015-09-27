@@ -28,6 +28,6 @@ python login.py
 
 # Bug Report
 
-[孟轲 \<mengke@ncic.ac.cn\>](mengke@ncic.ac.cn)
+[Septicmk \<mengke@ncic.ac.cn\>](mengke@ncic.ac.cn)
 
-[张正宇 \<zhangzhengyu@ncic.ac.cn\>](zhangzhengyu@ncic.ac.cn)
+[Freeman \<zhangzhengyu@ncic.ac.cn\>](zhangzhengyu@ncic.ac.cn)
