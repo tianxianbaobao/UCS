@@ -14,6 +14,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+force_update_flag = False
+
 logging.basicConfig(
     filename='UCS.log',
     level=logging.DEBUG,
@@ -22,7 +24,12 @@ logging.basicConfig(
 )
 
 def usage():
-    print '''a'''
+    print '''
+[options]
+    -f, --force-update      Download all files and overwrite the existed.
+                            Useful when teachers have updated original files.
+                            ATTENTION: Causing heavy net traffic.
+'''
 
 def check_existed(path):
     import os
@@ -120,7 +127,7 @@ class Course:
                 print  title + ' has contents which is protected by COPYRIGHT, failed to download'
                 continue
             __pwd = os.path.join(_pwd, name)
-            if check_existed(__pwd):
+            if (not force_update_flag) and check_existed(__pwd):
                 logging.info( name + ' already exists, skip')
                 continue
             print 'downloading ' + name
@@ -129,11 +136,13 @@ class Course:
 
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'h', ['help'])
+        opts, args = getopt.getopt(sys.argv[1:], 'hf', ['help','force-update'])
         for name, value in opts:
             if name in ("-h","--help"):
                 usage()
                 sys.exit()
+            if name in ("-f","--force-update"):
+                force_update_flag = True
     except getopt.GetoptError, err:
         print str(err)
         usage()
