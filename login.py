@@ -9,6 +9,7 @@ from HttpClient import *
 import re
 import logging
 import ConfigParser
+import getopt
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -19,6 +20,9 @@ logging.basicConfig(
     format='%(asctime)s  %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
     datefmt='%a, %d %b %Y %H:%M:%S',
 )
+
+def usage():
+    print '''a'''
 
 def check_existed(path):
     import os
@@ -96,7 +100,7 @@ class Course:
         res = list(set(res))
         self.download(title, res)
         logging.debug(str(res))
-    
+
     def download(self, title, res):
         import os
         print 'linking... ' + title
@@ -108,8 +112,12 @@ class Course:
             os.makedirs(_pwd)
         for f in res:
             name = get_revalue(f, r'([^/]+?)$', 'get name error', 1).replace(' ', '_')
+            print name
+            if name.endswith('/'):
+                print 'It is a directory'
+                continue
             if name.__contains__('copyrightAlertWindow'):
-                print  'contents is protected by COPYRIGHT, failed to download'
+                print  title + ' has contents which is protected by COPYRIGHT, failed to download'
                 continue
             __pwd = os.path.join(_pwd, name)
             if check_existed(__pwd):
@@ -120,6 +128,17 @@ class Course:
             self.req.Download(f, __pwd)
 
 if __name__ == '__main__':
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'h', ['help'])
+        for name, value in opts:
+            if name in ("-h","--help"):
+                usage()
+                sys.exit()
+    except getopt.GetoptError, err:
+        print str(err)
+        usage()
+        sys.exit(2)
+
     c = Course()
     c.login()
 
