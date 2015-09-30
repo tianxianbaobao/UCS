@@ -90,6 +90,7 @@ class Course:
 
     def get_resource(self, url):
         import HTMLParser
+        import os
 
         html_parser = HTMLParser.HTMLParser()
         html = self.req.Get(url)
@@ -97,15 +98,39 @@ class Course:
         logging.debug("res_url= "+res_url)
         html = self.req.Get(res_url)
         wtf_url = get_revalue(html, r'http://course.ucas.ac.cn/portal/tool-reset/(.+?)/', 'what the fuxk error', 1)
+        logging.debug("wtf_url= "+wtf_url)
         html = self.req.Get("http://course.ucas.ac.cn/portal/tool-reset/{0}/?panel=Main".format(wtf_url))
         html = html_parser.unescape(html)
         #logging.debug(html)
 
         title = get_revalue(html, r'<img src =.*?/>([\s\S]+?)</h3>', 'get title error', 1).strip().replace(' ','_')
+
         logging.debug(title)
+
+        folders = filter(lambda x: 'doNavigate' in x,re.findall(r'onclick="javascript[\s\S]+?submit', html))
+        folders = map(lambda x: re.findall(r'group/\d+/[\s\S]+?/', x) , folders)[1:]
+        folders = map(lambda x: '/'+x[0], folders)
+        #print folders
+
         res = re.findall(r'http://course.ucas.ac.cn/access/content/group/[^"]+', html)
+        res = map(lambda x: x[:-1] if x.endswith(";") else x, res)
         res = list(set(res))
+        logging.debug(html)
         self.download(title, res)
+
+
+        for folder in folders:
+            postData = {'source': 0,
+                'collectionId': folder,
+                'criteria':'title',
+                'sakai_action': 'doNavigate'}
+            content = self.req.Post("http://course.ucas.ac.cn/portal/tool/{0}/?panel=Main".format(wtf_url), postData)
+            tmp = re.findall(r'http://course.ucas.ac.cn/access/content/group/[^"]+', content)
+            tmp = list(set(tmp))
+            name = get_revalue(folder, r'([^/]+?)/$', 'folder error', 1).replace(' ', '_')
+            #print name
+            self.download(os.path.join(title,name), tmp)
+
         logging.debug(str(res))
 
     def download(self, title, res):
@@ -119,17 +144,20 @@ class Course:
             os.makedirs(_pwd)
         for f in res:
             name = get_revalue(f, r'([^/]+?)$', 'get name error', 1).replace(' ', '_')
-            print name
-            if name.endswith('/'):
-                print 'It is a directory'
-                continue
+
             if name.__contains__('copyrightAlertWindow'):
-                print  title + ' has contents which is protected by COPYRIGHT, failed to download'
-                continue
+                f = re.findall("http://course.ucas.ac.cn/access/content/group/[^']+", f)[0]
+                name = get_revalue(f, r'([^/]+?)$', 'get name error', 1).replace(' ', '_')
+                content = self.req.Get(f)
+                #logging.debug(content)
+                f = get_revalue(content, r'a href="(.+?)"', 'get wotongyi error', 1)
+                #print  title + ' has contents which is protected by COPYRIGHT, failed to download'
+
             __pwd = os.path.join(_pwd, name)
             if (not force_update_flag) and check_existed(__pwd):
                 logging.info( name + ' already exists, skip')
                 continue
+
             print 'downloading ' + name
             logging.info('downloading ' + name)
             self.req.Download(f, __pwd)

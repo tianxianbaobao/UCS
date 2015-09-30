@@ -13,7 +13,7 @@ python 2.7+
 ```shell
 git clone https://github.com/tianxianbaobao/UCS.git
 ```
-2. config  
+- config  
 在ucs.config文件中，依次填入用户名，密码，和课件同步位置,如:
 
 		[USER]

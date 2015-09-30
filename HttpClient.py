@@ -11,16 +11,17 @@ class HttpClient:
   __cookie = cookielib.CookieJar()
   __req = urllib2.build_opener(urllib2.HTTPCookieProcessor(__cookie))
   __req.addheaders = [
-    ('Accept', 'application/javascript, */*;q=0.8'),
-    ('User-Agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36")
+    #('Accept', 'application/javascript, */*;q=0.8'),
+    ('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'),
+    ('User-Agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36")
   ]
   urllib2.install_opener(__req)
 
   def Get(self, url, refer=None):
     try:
-      req = urllib2.Request(url)
+      req = urllib2.Request(url.replace(' ','%20'))
       if not (refer is None):
-        req.add_header('Referer', refer)
+          req.add_header('Referer', refer)
       return urllib2.urlopen(req).read()
     except urllib2.HTTPError, e:
       return e.read()
@@ -36,7 +37,11 @@ class HttpClient:
 
   def Download(self, url, file):
     output = open(file, 'wb')
-    output.write(urllib2.urlopen(url).read())
+    try:
+        output.write(urllib2.urlopen(url).read())
+    except:
+        url = url.replace(' ',r'%20')
+        output.write(urllib2.urlopen(url).read())
     output.close()
 
 #  def urlencode(self, data):
