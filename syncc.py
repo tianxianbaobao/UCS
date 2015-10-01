@@ -58,6 +58,9 @@ class Course:
         self.usrname =  config.get('USER','usrname')
         self.passwd = config.get('USER', 'passwd')
         self.pwd = config.get('USER', 'savedir')
+        if not (self.usrname and self.passwd and pwd):
+            print 'Please setup your account in \'config.ini\''
+            sys.exit()
 
     def login(self):
 
