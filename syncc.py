@@ -36,6 +36,9 @@ def check_existed(path):
     import os
     return os.path.exists(path)
 
+def pause():
+    raw_input('press \'Enter\' to continue')
+
 def get_revalue(html, rex, er, ex):
     v = re.search(rex, html)
     if v is None:
@@ -60,6 +63,7 @@ class Course:
         self.pwd = config.get('USER', 'savedir')
         if not (self.usrname and self.passwd and self.pwd):
             print 'Please setup your account in \'config.ini\''
+            pause()
             sys.exit()
 
     def login(self):
@@ -173,16 +177,19 @@ if __name__ == '__main__':
         for name, value in opts:
             if name in ("-h","--help"):
                 usage()
+                pause()
                 sys.exit()
             if name in ("-f","--force-update"):
                 force_update_flag = True
     except getopt.GetoptError, err:
         print str(err)
         usage()
+        pause()
         sys.exit(2)
 
     c = Course()
     c.login()
+    pause()
 
 
 
