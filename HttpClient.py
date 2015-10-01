@@ -5,7 +5,8 @@ FileName : HttpClient.py
 Author   : septicmk
 """
 
-import cookielib, urllib, urllib2, socket
+import cookielib, urllib, urllib2, socket, urlparse
+import os, sys
 
 class HttpClient:
   __cookie = cookielib.CookieJar()
@@ -36,12 +37,47 @@ class HttpClient:
       return e.read()
 
   def Download(self, url, file):
+    def chunk_report(bytes_so_far, chunk_size, total_size):
+      percent = int(bytes_so_far*100 / total_size)
+      sys.stdout.write( "\r" + '\033[92m' + "Downloading" + '\033[0m  ' + os.path.basename(file) + " ...(%.1f KB/%.1f KB)[%d%%]" % (bytes_so_far/1024.0, total_size/1024.0, percent))
+      sys.stdout.flush()
+
+      if bytes_so_far >= total_size:
+         sys.stdout.write('\n')
+         sys.stdout.flush()
+
+    def chunk_read(response, chunk_size=8192, report_hook=None):
+       total_size = response.info().getheader('Content-Length').strip()
+       total_size = int(total_size)
+       bytes_so_far = 0
+       ret = ''
+    
+       while 1:
+          chunk = response.read(chunk_size)
+          bytes_so_far += len(chunk)
+          ret += chunk
+    
+          if not chunk:
+             break
+    
+          if report_hook:
+             report_hook(bytes_so_far, chunk_size, total_size)
+    
+       return ret
+
     output = open(file, 'wb')
     try:
-        output.write(urllib2.urlopen(url).read())
+        response = urllib2.urlopen(url)
+        content = chunk_read(response, report_hook=chunk_report)
+        output.write(content)
     except:
-        url = url.replace(' ',r'%20')
-        output.write(urllib2.urlopen(url).read())
+        parsed_link = urlparse.urlsplit(url.encode('utf8'))
+        parsed_link = parsed_link._replace(path=urllib.quote(parsed_link.path))
+        url = parsed_link.geturl()
+        response = urllib2.urlopen(url)
+        content = chunk_read(response, report_hook=chunk_report)
+        output.write(content)
+
     output.close()
 
 #  def urlencode(self, data):
