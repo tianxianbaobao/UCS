@@ -58,7 +58,7 @@ class Course:
         self.usrname =  config.get('USER','usrname')
         self.passwd = config.get('USER', 'passwd')
         self.pwd = config.get('USER', 'savedir')
-        if not (self.usrname and self.passwd and pwd):
+        if not (self.usrname and self.passwd and self.pwd):
             print 'Please setup your account in \'config.ini\''
             sys.exit()
 
