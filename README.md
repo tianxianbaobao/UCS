@@ -34,6 +34,7 @@ python syncc.py
 - 下载 [ucs](https://github.com/tianxianbaobao/UCS/archive/master.zip)
 - 解压ucs,按上一节中的方法修改config.ini文件
 - 双击`synnc.py`运行同步程序
+- 或者使用dev分支中打包好的exe文件
 
 # Bug Report
 
