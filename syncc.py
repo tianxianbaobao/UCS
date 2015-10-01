@@ -1,7 +1,8 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
 Date     : 2015/09/25 20:21:53
-FileName : login.py
+FileName : syncc.py
 Author   : septicmk
 """
 
@@ -53,7 +54,7 @@ class Course:
         self.loginurl = 'http://sep.ucas.ac.cn/slogin'
         self.req = HttpClient()
         config = ConfigParser.ConfigParser()
-        config.read('./ucs.config')
+        config.read('./config.ini')
         self.usrname =  config.get('USER','usrname')
         self.passwd = config.get('USER', 'passwd')
         self.pwd = config.get('USER', 'savedir')

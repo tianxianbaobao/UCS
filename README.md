@@ -14,7 +14,7 @@ python 2.7+
 git clone https://github.com/tianxianbaobao/UCS.git
 ```
 - config  
-在ucs.config文件中，依次填入用户名，密码，和课件同步位置,如:
+在config.ini文件中，依次填入SEP系统的用户名，密码，和课件同步位置,如:
 
 		[USER]
 		usrname=tianxianbaobao
@@ -23,7 +23,7 @@ git clone https://github.com/tianxianbaobao/UCS.git
 
 - run  
 ```python
-python login.py
+python syncc.py
 ```
 
 # Bug Report
