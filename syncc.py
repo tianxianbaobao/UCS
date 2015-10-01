@@ -139,7 +139,7 @@ class Course:
 
     def download(self, title, res):
         import os
-        print '\033[33m'+'Linking' + '\033[0m  ' + title
+        print 'Linking' + '  ' + title
         logging.info('linking... ' + title)
         if not os.path.exists(self.pwd):
             os.makedirs(self.pwd)
@@ -159,7 +159,7 @@ class Course:
 
             __pwd = os.path.join(_pwd, name)
             if (not force_update_flag) and check_existed(__pwd):
-                print '\033[35m' + 'skip' '\033[0m  ' + name + ' already exists, skip'
+                print 'skip' + '  ' + name + ' already exists, skip'
                 logging.info( name + ' already exists, skip')
                 continue
 
