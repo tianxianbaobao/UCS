@@ -30,11 +30,12 @@ python syncc.py
 ```
 
 # Quick Start (for Windows)
+
 - 下载 [python2.7](https://www.python.org/ftp/python/2.7.10/python-2.7.10.amd64.msi)
 - 下载 [ucs](https://github.com/tianxianbaobao/UCS/archive/master.zip)
-- 解压ucs,按上一节中的方法修改config.ini文件
+- 按上一节中的方法修改config.ini文件
 - 双击`synnc.py`运行同步程序
-- 或者使用dev分支中打包好的exe文件
+
 
 # Bug Report
 
