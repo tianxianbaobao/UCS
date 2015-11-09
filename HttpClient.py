@@ -37,7 +37,6 @@ class HttpClient:
       return e.read()
 
   def Download(self, url, file):
-    print url
     def chunk_report(bytes_so_far, chunk_size, total_size):
       percent = int(bytes_so_far*100 / total_size)
       sys.stdout.write( "\r" + "Downloading" + '  ' + os.path.basename(file) + " ...(%.1f KB/%.1f KB)[%d%%]" % (bytes_so_far/1024.0, total_size/1024.0, percent))
