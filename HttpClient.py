@@ -37,37 +37,35 @@ class HttpClient:
       return e.read()
 
   def Download(self, url, file):
-    print url
     def chunk_report(bytes_so_far, chunk_size, total_size):
       percent = int(bytes_so_far*100 / total_size)
       sys.stdout.write( "\r" + "Downloading" + '  ' + os.path.basename(file) + " ...(%.1f KB/%.1f KB)[%d%%]" % (bytes_so_far/1024.0, total_size/1024.0, percent))
       sys.stdout.flush()
-
       if bytes_so_far >= total_size:
          sys.stdout.write('\n')
          sys.stdout.flush()
 
     def chunk_read(response, chunk_size=8192, report_hook=None):
-      try:
-       total_size = response.info().getheader('Content-Length').strip()
-      except:
-       return response.read()
-       total_size = int(total_size)
-       bytes_so_far = 0
-       ret = ''
+        try:
+            total_size = response.info().getheader('Content-Length').strip()
+        except:
+            return response.read()
+
+        total_size = int(total_size)
+        bytes_so_far = 0
+        ret = ''
     
-       while 1:
-          chunk = response.read(chunk_size)
-          bytes_so_far += len(chunk)
-          ret += chunk
+        while 1:
+            chunk = response.read(chunk_size)
+            bytes_so_far += len(chunk)
+            ret += chunk
     
-          if not chunk:
-             break
+            if not chunk:
+                break
     
-          if report_hook:
-             report_hook(bytes_so_far, chunk_size, total_size)
-    
-       return ret
+            if report_hook:
+                report_hook(bytes_so_far, chunk_size, total_size)
+        return ret
 
     output = open(file, 'wb')
     try:
